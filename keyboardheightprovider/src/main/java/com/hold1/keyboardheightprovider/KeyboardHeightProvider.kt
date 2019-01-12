@@ -20,9 +20,10 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
 
     init {
         contentView = View.inflate(activity, R.layout.keyboard_popup, null)
-        softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+        softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
-        
+
         width = 20
         height = WindowManager.LayoutParams.MATCH_PARENT
 
@@ -42,6 +43,11 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
         val orientation = activity.resources.configuration.orientation
 
         val keyboardHeight = screenSize.y + topCutoutHeight - rect.bottom
+        KeyboardInfo.keyboardState =
+                if (keyboardHeight > 0) KeyboardInfo.STATE_OPENED else KeyboardInfo.STATE_CLOSED
+        if (keyboardHeight > 0) {
+            KeyboardInfo.keyboardHeight = keyboardHeight
+        }
         notifyKeyboardHeightChanged(keyboardHeight, orientation)
     }
 

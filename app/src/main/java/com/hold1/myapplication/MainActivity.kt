@@ -5,9 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import com.hold1.keyboardheightprovider.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardListener {
-    override fun onHeightChanged(height: Int) {
-        sizeText.text = "$height px"
+class MainActivity : AppCompatActivity() {
+
+    private fun getKeyboardListener() = object : KeyboardHeightProvider.KeyboardListener {
+        override fun onHeightChanged(height: Int) {
+            sizeText.text = "$height"
+        }
     }
 
     private var keyboardHeightProvider: KeyboardHeightProvider? = null
@@ -19,31 +22,12 @@ class MainActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardListene
         baseView.post {
             keyboardHeightProvider?.start()
         }
+        keyboardHeightProvider?.addKeyboardListener(getKeyboardListener())
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
-    public override fun onPause() {
-        super.onPause()
-        keyboardHeightProvider?.removeKeyboardListener(this)
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public override fun onResume() {
-        super.onResume()
-        keyboardHeightProvider?.addKeyboardListener(this)
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public override fun onDestroy() {
         super.onDestroy()
-        keyboardHeightProvider!!.close()
+        keyboardHeightProvider?.close()
     }
 
 }
