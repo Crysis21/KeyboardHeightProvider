@@ -1,0 +1,76 @@
+*.iml
+.DS_Store
+.idea
+/.idea/compiler.xml
+/.idea/libraries/*.xml
+/.idea/modules.xml
+/.idea/runConfigurations/Debug_Buck_test.xml
+/.idea/gradle.xml
+/.idea/codeStyleSettings.xml
+/.idea/.name
+/buck-cache
+/buck-out
+/.buckd
+
+# Local IntelliJ files that vary per user.
+/.idea/ant.xml
+/.idea/compiler.xml
+/.idea/copyright
+/.idea/dictionaries/
+/.idea/workspace.xml
+/.idea/androidDexCompiler.xml
+/.idea/misc.xml
+/.idea/inspectionProfiles
+/.idea/runConfigurations
+/.idea/vcs.xml
+
+/build
+local.properties
+.gradle
+#app/release.keystore.properties
+
+app/manifest-merger-release-report.txt
+
+
+# Added by MM
+
+### Android ###
+# Built application files
+*.apk
+*.ap_
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+
+# Gradle files
+.gradle/
+build/
+
+# Proguard folder
+proguard/
+
+# Log Files
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# Intellij
+*.iml
+
+### Android Patch ###
+gen-external-apklibs
+
+
+*.idea
