@@ -16,6 +16,7 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
 
     private var resizableView: View
     private var parentView: View
+    private var lastKeyboardHeight = -1
 
     private var keyboardListeners = ArrayList<KeyboardListener>()
 
@@ -45,12 +46,13 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
         val orientation = activity.resources.configuration.orientation
 
         val keyboardHeight = screenSize.y + topCutoutHeight - rect.bottom
-        KeyboardInfo.keyboardState =
-                if (keyboardHeight > 0) KeyboardInfo.STATE_OPENED else KeyboardInfo.STATE_CLOSED
+        KeyboardInfo.keyboardState = if (keyboardHeight > 0) KeyboardInfo.STATE_OPENED else KeyboardInfo.STATE_CLOSED
         if (keyboardHeight > 0) {
             KeyboardInfo.keyboardHeight = keyboardHeight
         }
-        notifyKeyboardHeightChanged(keyboardHeight, orientation)
+        if (keyboardHeight != lastKeyboardHeight)
+            notifyKeyboardHeightChanged(keyboardHeight, orientation)
+        lastKeyboardHeight = keyboardHeight
     }
 
     private val topCutoutHeight: Int
