@@ -15,11 +15,13 @@ import android.widget.PopupWindow
 class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
 
     private var resizableView: View
+    private var parentView: View
 
     private var keyboardListeners = ArrayList<KeyboardListener>()
 
     init {
         contentView = View.inflate(activity, R.layout.keyboard_popup, null)
+        resizableView = contentView.findViewById(R.id.keyResizeContainer)
         softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
@@ -27,7 +29,7 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
         width = 0
         height = WindowManager.LayoutParams.MATCH_PARENT
 
-        resizableView = activity.findViewById(android.R.id.content)
+        parentView = activity.findViewById(android.R.id.content)
         resizableView.viewTreeObserver.addOnGlobalLayoutListener(getGlobalLayoutListener())
     }
 
@@ -93,8 +95,8 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
      * of the Activity.
      */
     fun start() {
-        if (!isShowing && resizableView.windowToken != null) {
-            showAtLocation(resizableView, Gravity.NO_GRAVITY, 0, 0)
+        if (!isShowing && parentView.windowToken != null) {
+            showAtLocation(parentView, Gravity.NO_GRAVITY, 0, 0)
         }
     }
 

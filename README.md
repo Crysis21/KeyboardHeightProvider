@@ -20,7 +20,7 @@ Add the following repo to your project
 Add the following dependency to your project:
 
 ```gradle
-    implementation 'com.hold1:keyboardheightprovider:0.0.3'
+    implementation 'com.hold1:keyboardheightprovider:0.0.4'
 ```
 
 ## Usage
