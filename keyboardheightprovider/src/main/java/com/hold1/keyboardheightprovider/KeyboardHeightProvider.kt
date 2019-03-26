@@ -11,7 +11,6 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import timber.log.Timber
-import java.lang.ref.WeakReference
 
 /**
  * Created by Cristian Holdunu on 11/01/2019.
@@ -22,7 +21,7 @@ class KeyboardHeightProvider(private val activity: Activity) : PopupWindow(activ
     private var parentView: View? = null
     private var lastKeyboardHeight = -1
 
-    private var keyboardListeners = ArrayList<WeakReference<KeyboardListener>>()
+    private var keyboardListeners = ArrayList<KeyboardListener>()
 
     init {
         contentView = View.inflate(activity, R.layout.keyboard_popup, null)
@@ -96,17 +95,16 @@ class KeyboardHeightProvider(private val activity: Activity) : PopupWindow(activ
         }
 
     fun addKeyboardListener(listener: KeyboardListener) {
-        keyboardListeners.add(WeakReference(listener))
+        keyboardListeners.add(listener)
     }
 
     fun removeKeyboardListener(listener: KeyboardListener) {
-        val lister = keyboardListeners.find { it.get() == listener }
-        keyboardListeners.remove(lister)
+        keyboardListeners.remove(listener)
     }
 
     private fun notifyKeyboardHeightChanged(height: Int, orientation: Int) {
         keyboardListeners.forEach {
-            it.get()?.onHeightChanged(height)
+            it.onHeightChanged(height)
         }
     }
 

@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         keyboardHeightProvider = KeyboardHeightProvider(this)
-//        baseView.post {
-//            keyboardHeightProvider?.start()
-//        }
         keyboardHeightProvider?.addKeyboardListener(getKeyboardListener())
         launchBtn.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
