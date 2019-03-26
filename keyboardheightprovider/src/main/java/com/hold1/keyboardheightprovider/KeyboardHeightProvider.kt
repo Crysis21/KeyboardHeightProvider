@@ -10,17 +10,19 @@ import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
+import timber.log.Timber
+import java.lang.ref.WeakReference
 
 /**
  * Created by Cristian Holdunu on 11/01/2019.
  */
-class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
+class KeyboardHeightProvider(private val activity: Activity) : PopupWindow(activity) {
 
     private var resizableView: View
-    private var parentView: View
+    private var parentView: View? = null
     private var lastKeyboardHeight = -1
 
-    private var keyboardListeners = ArrayList<KeyboardListener>()
+    private var keyboardListeners = ArrayList<WeakReference<KeyboardListener>>()
 
     init {
         contentView = View.inflate(activity, R.layout.keyboard_popup, null)
@@ -31,9 +33,23 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
 
         width = 0
         height = WindowManager.LayoutParams.MATCH_PARENT
+    }
 
+    fun onResume() {
+        Timber.d("onResume")
         parentView = activity.findViewById(android.R.id.content)
-        resizableView.viewTreeObserver.addOnGlobalLayoutListener(getGlobalLayoutListener())
+        parentView?.post {
+            resizableView.viewTreeObserver.addOnGlobalLayoutListener(getGlobalLayoutListener())
+            if (!isShowing && parentView?.windowToken != null) {
+                showAtLocation(parentView, Gravity.NO_GRAVITY, 0, 0)
+            }
+        }
+    }
+
+    fun onPause() {
+        Timber.d("onPause")
+        resizableView.viewTreeObserver.removeOnGlobalLayoutListener(getGlobalLayoutListener())
+        dismiss()
     }
 
     private fun getGlobalLayoutListener() = ViewTreeObserver.OnGlobalLayoutListener {
@@ -80,42 +96,23 @@ class KeyboardHeightProvider(val activity: Activity) : PopupWindow(activity) {
         }
 
     fun addKeyboardListener(listener: KeyboardListener) {
-        keyboardListeners.add(listener)
+        keyboardListeners.add(WeakReference(listener))
     }
 
     fun removeKeyboardListener(listener: KeyboardListener) {
-        keyboardListeners.remove(listener)
+        val lister = keyboardListeners.find { it.get() == listener }
+        keyboardListeners.remove(lister)
     }
 
     private fun notifyKeyboardHeightChanged(height: Int, orientation: Int) {
         keyboardListeners.forEach {
-            it.onHeightChanged(height)
+            it.get()?.onHeightChanged(height)
         }
-    }
-
-    /**
-     * Start the KeyboardHeightProvider, this must be called after the onResume of the Activity.
-     * PopupWindows are not allowed to be registered before the onResume has finished
-     * of the Activity.
-     */
-    fun start() {
-        if (!isShowing && parentView.windowToken != null) {
-            showAtLocation(parentView, Gravity.NO_GRAVITY, 0, 0)
-        }
-    }
-
-    /**
-     * Close the keyboard height provider,
-     * this provider will not be used anymore.
-     */
-    fun close() {
-        this.keyboardListeners.clear()
-        dismiss()
     }
 
     fun hideKeyboard() {
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(parentView.windowToken, 0)
+        imm.hideSoftInputFromWindow(parentView?.windowToken, 0)
     }
 
     interface KeyboardListener {

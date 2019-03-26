@@ -1,5 +1,6 @@
 package com.hold1.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hold1.keyboardheightprovider.KeyboardHeightProvider
@@ -19,15 +20,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         keyboardHeightProvider = KeyboardHeightProvider(this)
-        baseView.post {
-            keyboardHeightProvider?.start()
-        }
+//        baseView.post {
+//            keyboardHeightProvider?.start()
+//        }
         keyboardHeightProvider?.addKeyboardListener(getKeyboardListener())
+        launchBtn.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    public override fun onDestroy() {
-        super.onDestroy()
-        keyboardHeightProvider?.close()
+    override fun onResume() {
+        super.onResume()
+        keyboardHeightProvider?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keyboardHeightProvider?.onPause()
     }
 
 }
