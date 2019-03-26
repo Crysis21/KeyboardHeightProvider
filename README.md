@@ -20,42 +20,53 @@ Add the following repo to your project
 Add the following dependency to your project:
 
 ```gradle
-    implementation 'com.hold1:keyboardheightprovider:0.0.7'
+    implementation 'com.hold1:keyboardheightprovider:0.0.9'
 ```
 
 ## Usage
 
 1. Keep a reference to `KeyboardHeightProvider` in your activity.
-```kotlin
-    private var keyboardHeightProvider: KeyboardHeightProvider? = null
-```
-2. Create a `KeyboardListener`
-``` kotlin
 
-    private fun getKeyboardListener() = object : KeyboardHeightProvider.KeyboardListener {
-        override fun onHeightChanged(height: Int) {
-            sizeText.text = "$height"
+    ```kotlin
+        private var keyboardHeightProvider: KeyboardHeightProvider? = null
+    ```
+
+2. Create a `KeyboardListener`
+
+    ``` kotlin
+    
+        private fun getKeyboardListener() = object : KeyboardHeightProvider.KeyboardListener {
+            override fun onHeightChanged(height: Int) {
+                sizeText.text = "$height"
+            }
         }
-    }
-```
-3. Create the height provider after your activity has been created
-```kotlin
-        keyboardHeightProvider = KeyboardHeightProvider(this)
-        baseView.post {
-            keyboardHeightProvider?.start()
+    ```
+
+3. Create the height provider after your activity has been created and register the listener.
+
+    ```kotlin
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+            keyboardHeightProvider = KeyboardHeightProvider(this)
+            keyboardHeightProvider?.addKeyboardListener(getKeyboardListener())
         }
-```
-4. Register for keyboard changes
-```kotlin 
-        keyboardHeightProvider?.addKeyboardListener(getKeyboardListener())
-```
-5. Clean up :)
-```kotlin
-    public override fun onDestroy() {
-        super.onDestroy()
-        keyboardHeightProvider?.close()
-    }
-```
+    ```
+    
+4. Override activity lifecycle and make sure you notify the `KeyboardHeightProvider`
+
+    ```kotlin 
+        override fun onResume() {
+            super.onResume()
+            keyboardHeightProvider?.onResume()
+        }
+    
+        override fun onPause() {
+            super.onPause()
+            keyboardHeightProvider?.onPause()
+        }
+    ```
+    
 
 Also the `KeyboardInfo` object provides information about the current state of the keyboard, and it's cached height.
 

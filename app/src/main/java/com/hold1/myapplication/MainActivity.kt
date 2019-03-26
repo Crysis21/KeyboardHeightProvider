@@ -8,12 +8,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private fun getKeyboardListener() = object : KeyboardHeightProvider.KeyboardListener {
-        override fun onHeightChanged(height: Int) {
-            sizeText.text = "$height"
-        }
-    }
-
     private var keyboardHeightProvider: KeyboardHeightProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         keyboardHeightProvider = KeyboardHeightProvider(this)
         keyboardHeightProvider?.addKeyboardListener(getKeyboardListener())
+
         launchBtn.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
@@ -35,6 +30,13 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         keyboardHeightProvider?.onPause()
+    }
+
+
+    private fun getKeyboardListener() = object : KeyboardHeightProvider.KeyboardListener {
+        override fun onHeightChanged(height: Int) {
+            sizeText.text = "$height"
+        }
     }
 
 }
