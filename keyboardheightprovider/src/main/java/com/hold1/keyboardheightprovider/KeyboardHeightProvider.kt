@@ -77,19 +77,19 @@ class KeyboardHeightProvider(private val activity: Activity) : PopupWindow(activ
             val decorView = activity.window.decorView ?: return 0
             var cutOffHeight = 0
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                val windowInsets = decorView.rootWindowInsets
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                    val displayCutout = windowInsets.displayCutout
-                    if (displayCutout != null) {
-                        val list = displayCutout.boundingRects
-                        for (rect in list) {
-                            if (rect.top == 0) {
-                                cutOffHeight += rect.bottom - rect.top
+                decorView.rootWindowInsets?.let { windowInsets ->
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                        val displayCutout = windowInsets.displayCutout
+                        if (displayCutout != null) {
+                            val list = displayCutout.boundingRects
+                            for (rect in list) {
+                                if (rect.top == 0) {
+                                    cutOffHeight += rect.bottom - rect.top
+                                }
                             }
                         }
                     }
                 }
-
             }
             return cutOffHeight
         }
