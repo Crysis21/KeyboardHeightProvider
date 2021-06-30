@@ -51,7 +51,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
 
@@ -66,51 +66,50 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
 }
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                groupId publishedGroupId
-
-                name pomLibraryName
-                description libraryDescription
-                url siteUrl
-
-                licenses {
-                    license {
-                        name licenseName
-                        url licenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
-}
+//
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                groupId publishedGroupId
+//
+//                name pomLibraryName
+//                description libraryDescription
+//                url siteUrl
+//
+//                licenses {
+//                    license {
+//                        name licenseName
+//                        url licenseUrl
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id developerId
+//                        name developerName
+//                        email developerEmail
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 task sourcesJar(type: Jar) {
@@ -122,30 +121,24 @@ artifacts {
     archives sourcesJar
 }
 
-
-bintray {
-    user = BINTRAY_USER
-    key = BINTRAY_KEY
-    configurations = ['archives']
-
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        userOrg = developerId
-        desc = libraryDescription
-        licenses = allLicenses
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        publish = true
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-            vcsTag = version
-            released = new Date()
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
-}
+//
+//bintray {
+//    configurations = ['archives']
+//
+//    pkg {
+//        repo = bintrayRepo
+//        name = bintrayName
+//        userOrg = developerId
+//        desc = libraryDescription
+//        licenses = allLicenses
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        publish = true
+//        publicDownloadNumbers = true
+//        version {
+//            desc = libraryDescription
+//            vcsTag = version
+//            released = new Date()
+//        }
+//    }
+//}
