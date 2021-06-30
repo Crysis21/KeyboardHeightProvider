@@ -2,57 +2,43 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 ext {
-    bintrayRepo = 'Android'
-    bintrayName = 'KeyboardHeightProvider'
+    PUBLISH_GROUP_ID = 'ro.holdone'
+    PUBLISH_ARTIFACT_ID = 'keyboardheightprovider'
+    PUBLISH_VERSION = "1.0.1"
 
-    publishedGroupId = 'com.hold1'
-    pomLibraryName = bintrayName
+    POM_NAME = 'keyboardheightprovider'
+    POM_PACKAGING = 'aar'
 
-    libraryDescription = 'Keyboard detection library.'
+    POM_DESCRIPTION = 'Keyboard detection library.'
+    POM_INCEPTION_YEAR = '2021'
 
-    siteUrl = 'https://github.com/Crysis21/KeyboardHeightProvider'
-    gitUrl = 'https://github.com/Crysis21/KeyboardHeightProvider.git'
+    POM_URL = 'https://github.com/Crysis21/KeyboardHeightProvider'
+    POM_SCM_URL = 'https://github.com/Crysis21/KeyboardHeightProvider'
+    POM_SCM_CONNECTION = 'scm:git@github.com:Crysis21/KeyboardHeightProvider.git'
+    POM_SCM_DEV_CONNECTION = 'scm:git@github.com:Crysis21/KeyboardHeightProvider.git'
 
-    libraryVersion = android.defaultConfig.versionName
+    POM_LICENCE_NAME = 'The Apache Software License, Version 2.0'
+    POM_LICENCE_URL = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    POM_LICENCE_DIST = 'repo'
 
-    developerId = 'crysis21'
-    developerName = 'Cristian Holdunu'
-    developerEmail = 'cristian.holdunu@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
+    POM_DEVELOPER_ID = 'Crysis21'
+    POM_DEVELOPER_NAME = 'Cristian Holdunu'
+    POM_DEVELOPER_URL = 'https://holdone.ro'
+    POM_DEVELOPER_EMAIL = "cristian.holdunu@gmail.com"
 }
 
-
-group = publishedGroupId
-project.archivesBaseName = 'keyboardheightprovider'
-version = '0.0.9'
-
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    }
-}
-
-apply plugin: 'com.jfrog.bintray'
-
+apply from: "${rootProject.projectDir}/scripts/gradle-publishing.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
     }
 
     buildTypes {
@@ -62,6 +48,14 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -72,73 +66,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
-
 }
-//
-//install {
-//    repositories.mavenInstaller {
-//        // This generates POM.xml with proper parameters
-//        pom {
-//            project {
-//                packaging 'aar'
-//                groupId publishedGroupId
-//
-//                name pomLibraryName
-//                description libraryDescription
-//                url siteUrl
-//
-//                licenses {
-//                    license {
-//                        name licenseName
-//                        url licenseUrl
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id developerId
-//                        name developerName
-//                        email developerEmail
-//                    }
-//                }
-//                scm {
-//                    connection gitUrl
-//                    developerConnection gitUrl
-//                    url siteUrl
-//
-//                }
-//            }
-//        }
-//    }
-//}
-
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-artifacts {
-    archives sourcesJar
-}
-
-//
-//bintray {
-//    configurations = ['archives']
-//
-//    pkg {
-//        repo = bintrayRepo
-//        name = bintrayName
-//        userOrg = developerId
-//        desc = libraryDescription
-//        licenses = allLicenses
-//        websiteUrl = siteUrl
-//        vcsUrl = gitUrl
-//        publish = true
-//        publicDownloadNumbers = true
-//        version {
-//            desc = libraryDescription
-//            vcsTag = version
-//            released = new Date()
-//        }
-//    }
-//}
