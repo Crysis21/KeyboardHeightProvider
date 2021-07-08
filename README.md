@@ -6,21 +6,16 @@ For other modes of soft input mode, you're out of luck. As the android brick-hea
 * set it's soft input behaviour as `adjustResize`
 * attach this popup window to your activity and let it report the keyboard height, based on it's layout changes.
 
-## Set up
-Add the following repo to your project
 
-```gradle
-    repositories {
-        maven {
-            url  "https://dl.bintray.com/crysis21/Android"
-        }
-    }
-```
+## Set up
+
+## Note for existing users:
+The package name has been changed to a domain name I own, as part of maven requirements.
 
 Add the following dependency to your project:
 
 ```gradle
-    implementation 'com.hold1:keyboardheightprovider:0.0.9'
+    implementation 'ro.holdone.keyboardHeightProvider:1.0.1'
 ```
 
 ## Usage
