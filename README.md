@@ -9,7 +9,7 @@ For other modes of soft input mode, you're out of luck. As the android brick-hea
 
 ## Set up
 
-## Note for existing users:
+Note for existing users:
 The package name has been changed to a domain name I own, as part of maven requirements.
 
 Add the following dependency to your project:
