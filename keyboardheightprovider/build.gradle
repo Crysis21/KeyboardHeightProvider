@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 ext {
     PUBLISH_GROUP_ID = 'ro.holdone'
     PUBLISH_ARTIFACT_ID = 'keyboardheightprovider'
-    PUBLISH_VERSION = "1.0.2"
+    PUBLISH_VERSION = "1.0.3"
 
     POM_NAME = 'keyboardheightprovider'
     POM_PACKAGING = 'aar'
@@ -57,7 +57,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.30"
     implementation 'com.jakewharton.timber:timber:5.0.1'

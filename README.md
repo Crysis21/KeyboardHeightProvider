@@ -15,7 +15,7 @@ The package name has been changed to a domain name I own, as part of maven requi
 Add the following dependency to your project:
 
 ```gradle
-    implementation 'ro.holdone.keyboardHeightProvider:1.0.2'
+    implementation 'ro.holdone.keyboardHeightProvider:1.0.3'
 ```
 
 ## Usage
