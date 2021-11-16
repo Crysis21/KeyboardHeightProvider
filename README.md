@@ -1,4 +1,11 @@
 # Keyboard Height Provider
+
+### Deprecated
+This library is no longer needed. You should handle keyboard input based on the window insets provided when changes occur in the environment. More details and a very well written example you can find here. 
+https://github.com/android/user-interface-samples/tree/master/WindowInsetsAnimation
+
+_______________________________________________________________________
+
 Getting keyboard height in android it's a pain in the ass. For activities where soft input mode is `adjustResize`, you can set up an `OnGlobalLayoutListener` and measure how the activity window is resized, to make room for the keyboard.
 
 For other modes of soft input mode, you're out of luck. As the android brick-heads refuse to solve this problem even after 28 iterations of SDK development, someone came with a cool solution:
